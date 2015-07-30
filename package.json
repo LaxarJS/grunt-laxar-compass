@@ -1,0 +1,32 @@
+{
+   "name": "grunt-laxar-compass",
+   "version": "0.1.0-pre",
+   "description": "Watches SCSS of LaxarJS artifacts, runs compass when needed.",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/LaxarJS/grunt-laxar.git"
+   },
+   "authors": [],
+   "license": "MIT",
+   "scripts": {
+      "test": "grunt test"
+   },
+   "keywords": [
+      "gruntplugin",
+      "laxar"
+   ],
+   "dependencies": {
+      "shelljs": "~0.5.1",
+      "lodash": "~3.10.0"
+   },
+   "peerDependencies": {
+      "grunt": ">=0.4",
+      "grunt-laxar": "~1.1.0-alpha.3"
+   },
+   "devDependencies": {
+      "expect.js": "~0.3.1",
+      "grunt-cli": "~0.1.13",
+      "grunt-mocha-cli": "~1.13.0",
+      "grunt-run-task": "~0.2.0"
+   }
+}

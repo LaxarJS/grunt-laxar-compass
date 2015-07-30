@@ -1,0 +1,4 @@
+/Gruntfile.js
+/.npmignore
+/tasks/spec/fixtures/bower_components
+/tmp
