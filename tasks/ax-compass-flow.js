@@ -184,7 +184,7 @@ module.exports = function( grunt ) {
          var globalThemeFolder = item.themeFoldersByName[ info.themeName ];
          var configPath = path.join( globalThemeFolder, 'compass', 'config.rb' );
          var command = item.options.compass + ' compile -c ' + configPath;
-         grunt.log.verbose( TASK + ': ' + command + ' (wd: ' + info.scssProjectFolder + ')' );
+         grunt.verbose.writeln( TASK + ': ' + command + ' (wd: ' + info.scssProjectFolder + ')' );
 
          var projectPath = shell.pwd();
          shell.cd( info.scssProjectFolder );
