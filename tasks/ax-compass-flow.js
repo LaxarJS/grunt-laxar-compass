@@ -13,45 +13,23 @@ module.exports = function( grunt ) {
    var CONFIG_FILE = path.join( 'work', 'compass-watch-configuration.json' );
    var ARTIFACTS = path.join( 'tooling', 'artifacts.json' );
    var CSS_MATCHER = /^(.*)[\/\\]css[\/\\](.*)[.]css$/;
-   var SCSS_MATCHER = /^(.*)[\/\\](.*)[\/\\]scss[\/\\](.*)[.]scss$/;
-
+   var SCSS_MATCHER = /^(.*)[\/\\]scss[\/\\](.*)[.]scss$/;
 
    var shell = require( 'shelljs' );
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    grunt.registerMultiTask( TASK,
       'Configures watchers for compiling SCSS files.',
       function() { runCompassFlow( this ); }
    );
 
-   var waitingItems = [];
-   var watchListeners = {};
-   var processDebounced = debounce( processWaitingItems, 100, { trailing: true } );
-
-   function processWaitingItems() {
-      var filesProcessed = {};
-      while( waitingItems.length ) {
-         var item = waitingItems.shift();
-         var filePath = item.filePath;
-         if( filesProcessed[ filePath ] ) {
-            return;
-         }
-         filesProcessed[ filePath ] = true;
-
-         var themeName = filePath.replace( SCSS_MATCHER, '$2' );
-         var artifactThemeFolder = path.join( filePath.replace( SCSS_MATCHER, '$1' ), themeName );
-         var themeFolder = item.themeFoldersByName[ themeName ];
-         var configPath = path.join( themeFolder, 'compass', 'config.rb' );
-         var command = item.options.compass + ' compile -c ' + configPath;
-         grunt.log.writeln( 'RUNNING: ' + command + ' in ' + artifactThemeFolder );
-
-         var projectPath = shell.pwd();
-         shell.cd( artifactThemeFolder );
-         shell.exec( command );
-         shell.cd( projectPath );
-      }
-   }
-
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   // Make sure that events are registered only once per flow-target.
+   var watchListeners = {};
+   // Batch fast subsequent changes to SCSS files (e.g. editor saving all open files at the same time):
+   var processDebounced = debounce( processWaitingItems, 50, { trailing: true } );
 
    function runCompassFlow( task ) {
       var startMs = Date.now();
@@ -65,6 +43,10 @@ module.exports = function( grunt ) {
          saveConfig: true
       } );
 
+      if( grunt.option( 'laxar-compass' ) ) {
+         options.compass = grunt.option( 'laxar-compass' );
+      }
+
       if( options.compass.indexOf( path.sep ) !== -1 ) {
          options.compass = path.resolve( shell.pwd(), options.compass );
       }
@@ -74,16 +56,18 @@ module.exports = function( grunt ) {
          themeFoldersByName[ item.name ] = path.resolve( shell.pwd(), item.path );
       } );
 
-      var config = { watch: {} };
       var subTask = flowId + '-compass';
+      var config = { watch: {} };
       config.watch[ subTask ] = watchConfigForCompass( artifacts, flowId, options );
+      var files = config.watch[ subTask].files;
+
       if( options.saveConfig ) {
          var destination = path.join( flowsDirectory, flowId, CONFIG_FILE );
          var result = JSON.stringify( config, null, 3 );
          writeIfChanged( destination, result, startMs );
       }
 
-      grunt.log.writeln( TASK + ': registering compass watchers for subtask ' + subTask );
+      grunt.log.writeln( TASK + ': registering compass watchers for sub-task ' + subTask );
       grunt.config( 'watch.' + subTask, config.watch[ subTask ] );
 
       if( watchListeners[ subTask ] ) {
@@ -93,16 +77,16 @@ module.exports = function( grunt ) {
          if( !/-compass$/.test( target ) || !SCSS_MATCHER.test( filePath ) ) {
             return;
          }
-         waitingItems.push( {
+         compassQueue.push( {
             filePath: filePath,
-            artifacts: artifacts,
+            files: files,
             options: options,
             themeFoldersByName: themeFoldersByName
          } );
          processDebounced();
       };
-      grunt.event.on( 'watch', watchListeners[ subTask ] );
 
+      grunt.event.on( 'watch', watchListeners[ subTask ] );
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +100,7 @@ module.exports = function( grunt ) {
          files: flatten( items.map( getResourcePaths( artifacts.themes, 'watch' ) ) )
             .filter( isCss )
             .map( function( cssFilePath ) {
-               return cssFilePath.replace( CSS_MATCHER, '$1/scss/$2.scss' );
+               return cssFilePath.replace( CSS_MATCHER, path.join( '$1', 'scss','$2.scss' ) );
             } ),
          event: [ 'changed', 'added' ],
          options: {
@@ -126,6 +110,86 @@ module.exports = function( grunt ) {
 
       function isCss( filePath ) {
          return CSS_MATCHER.test( filePath );
+      }
+   }
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   // Files that needs to be processed by compass are collected here.
+   var compassQueue = [];
+
+   function processWaitingItems() {
+      // File may be triggered multiple times (from one or multiple flows).
+      // Process each file only once.
+      var filesProcessed = {};
+
+      while( compassQueue.length ) {
+         var item = compassQueue.shift();
+         var filePath = item.filePath;
+         if( !filesProcessed[ filePath ] ) {
+            filesProcessed[ filePath ] = true;
+            processScssItem( item, scssInfo( filePath ) );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function processScssItem( item, fileInfo ) {
+         execCompass( item, fileInfo );
+         if( fileInfo.themeName === 'default.theme' ) {
+            // rebuild themed versions as they often import from the default theme:
+            item.files
+               .filter( function( _ ) { return _.indexOf( fileInfo.artifactName ) !== -1; } )
+               .forEach( function( scssPath ) {
+                  var subInfo = scssInfo( scssPath );
+                  if( subInfo.themeName !== 'default.theme' &&
+                      subInfo.artifactName === fileInfo.artifactName ) {
+                     execCompass( item, subInfo );
+                  }
+               } );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function scssInfo( scssFilePath ) {
+         var match = SCSS_MATCHER.exec( scssFilePath );
+         var scssProjectFolder = match[ 1 ];
+         var scssArtifactName = match[ 2 ];
+
+         var folderSegments = scssProjectFolder.split( path.sep );
+         var themeName = 'default.theme';
+         for( var i = folderSegments.length - 1; i > 0; i-- ) {
+            if( /\.theme$/.test( folderSegments[ i ] ) ) {
+               themeName = folderSegments[ i ];
+               break;
+            }
+         }
+
+         return {
+            scssProjectFolder: scssProjectFolder,
+            themeName: themeName,
+            artifactName: scssArtifactName,
+            scssPath: scssFilePath
+         };
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      function execCompass( item, info ) {
+         if( !grunt.file.exists( info.scssPath ) ) {
+            return;
+         }
+
+         var globalThemeFolder = item.themeFoldersByName[ info.themeName ];
+         var configPath = path.join( globalThemeFolder, 'compass', 'config.rb' );
+         var command = item.options.compass + ' compile -c ' + configPath;
+         grunt.log.verbose( TASK + ': ' + command + ' (wd: ' + info.scssProjectFolder + ')' );
+
+         var projectPath = shell.pwd();
+         shell.cd( info.scssProjectFolder );
+         shell.exec( command );
+         shell.cd( projectPath );
       }
    }
 
