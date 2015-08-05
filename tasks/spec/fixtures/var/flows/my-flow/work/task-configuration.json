@@ -1,0 +1,14 @@
+{
+   "laxar-compass-flow": {
+      "my-flow": {
+         "src": "var/flows",
+         "options": {
+            "flow": {
+               "target": "my-flow",
+               "src": "application/flow/flow.json"
+            },
+            "testDirectory": "var/tests"
+         }
+      }
+   }
+}

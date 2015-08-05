@@ -1,20 +1,14 @@
 # grunt-laxar-compass [![Build Status](https://travis-ci.org/LaxarJS/grunt-laxar.svg?branch=master)](https://travis-ci.org/LaxarJS/grunt-laxar)
 
-> Watches SCSS of LaxarJS artifacts, runs compass when needed.
+> Watches SCSS of LaxarJS artifacts, runs compass when SCSS changes.
 
-`grunt-laxar` provides a couple of custom [Grunt](http://gruntjs.com/) tasks for [LaxarJS](http://laxarjs.org) applications, plus matching default configuration for several tasks from the Grunt community.
+This task makes it easy to use [compass](http://compass-style.org/) in LaxarJS applications.
 
-```console
-$ grunt start
+Right now it only watches your SCSS files while the development server is running.
+Whenever you change SCSS for an artifact, the CSS for the same theme folder of the artifact gets recreated using `compass compile`.
+The configuration path will be set to the `compass/config.rb` from the matching global theme folder (e.g. `includes/themes/my.theme/config/compass.rb`).
 
-  To run laxar-compass registered as a user-task (recommended, see below).
-
-$ grunt laxar-build laxar-compass-flow:main
-        └─1─────-─┘ └─2───────-─-─-─-─-─-─┘
-
-  1) configure grunt-laxar tasks and generate artifacts
-  2) run (manually configured) laxar-compass-flow for flow-target main
-```
+Also, when you modify the *default.theme* SCSS of an artifact, all other themes of that artifact are recompiled, because they usually import the default theme.  
 
 
 ## Getting Started
@@ -44,8 +38,17 @@ grunt.initConfig( {
          'build-flow': [ 'laxar-compass-flow' ]
       }
    },
+   'laxar-compass': {
+      options: {
+         // optional:
+         compass: 'path/to/compass'
+      }
+   }
 }
 ```
+
+This will automatically launch the task during development (e.g. `grunt develop`), watching your application artifacts.
+
 
 ## User Tasks
 
@@ -53,5 +56,33 @@ This plugin makes available a new *user task* for the *build*-stage of the grunt
 
 ⚙ **laxar-compass-flow**
 
-Configures the `watch` task to keep an eye on the SCSS of widgets, controls and themes.
+This multi-task configures the `watch` task to keep an eye on the SCSS of widgets, controls and themes for a given flow target.
 Whenever the SCSS changes, `compass compile` is executed with the `config.rb` of the theme.
+This only actually works if `watch` is used, e.g (for a flow-target _main_):
+
+```console
+$ grunt laxar-configure laxar-compass-flow:main watch
+```
+
+or simply
+
+```console
+grunt laxar-develop
+```
+
+which will also run a development server with live-reload.
+
+
+## Options
+
+* compass
+
+The path to the compass executable (relative or absolute).
+If omitted, `compass` must exist on the path.
+This option can be overridden on the command line using the argument `grunt develop --laxar-compass my/path/to/compass`.
+
+* debounceDelay
+
+Subsequent changes within this time window will be batched together before running compass.
+The default is 50 milliseconds.
+This is useful if several files are changes within a short duration (e.g. saving multiple editor tabs together).

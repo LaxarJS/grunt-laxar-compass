@@ -21,12 +21,16 @@
    },
    "peerDependencies": {
       "grunt": ">=0.4",
-      "grunt-laxar": "~1.1.0-alpha.3"
+      "grunt-laxar": "~1.1.0-alpha.4"
    },
    "devDependencies": {
       "expect.js": "~0.3.1",
       "grunt-cli": "~0.1.13",
       "grunt-mocha-cli": "~1.13.0",
-      "grunt-run-task": "~0.2.0"
+      "grunt-run-task": "~0.2.0",
+      "grunt-contrib-clean": "~0.6.0",
+      "grunt-contrib-copy": "~0.8.0",
+      "grunt-contrib-jshint": "~0.10.0",
+      "grunt-bump": "~0.0.13"
    }
 }

@@ -1,0 +1,353 @@
+{
+   "flows": [
+      {
+         "path": "application/flow/flow.json",
+         "resources": {
+            "watch": [
+               "."
+            ],
+            "embed": [
+               "."
+            ],
+            "list": []
+         },
+         "references": {
+            "file": {
+               "self": "application/flow/flow.json"
+            }
+         }
+      }
+   ],
+   "themes": [
+      {
+         "path": "bower_components/laxar-uikit/dist/themes/default.theme",
+         "name": "default.theme",
+         "references": {
+            "file": {
+               "self": "default.theme"
+            }
+         },
+         "resources": {
+            "watch": [
+               "css/theme.css"
+            ],
+            "list": [
+               "css/theme.css"
+            ],
+            "embed": []
+         }
+      },
+      {
+         "path": "themes/test.theme",
+         "name": "test.theme",
+         "references": {
+            "file": {
+               "self": "test.theme"
+            }
+         },
+         "resources": {
+            "watch": [
+               "css/theme.css"
+            ],
+            "list": [
+               "css/theme.css"
+            ],
+            "embed": []
+         }
+      },
+      {
+         "path": "themes/test2.theme",
+         "name": "test2.theme",
+         "references": {
+            "file": {
+               "self": "test2.theme"
+            }
+         },
+         "resources": {
+            "watch": [
+               "css/theme.css"
+            ],
+            "list": [
+               "css/theme.css"
+            ],
+            "embed": []
+         }
+      }
+   ],
+   "pages": [
+      {
+         "path": "application/pages/start.json",
+         "resources": {
+            "watch": [
+               "."
+            ],
+            "embed": [
+               "."
+            ],
+            "list": []
+         },
+         "references": {
+            "file":  {
+               "self": "start"
+            }
+         },
+         "pages": [],
+         "widgets": [
+            "default/test_widget",
+            "default/local_widget",
+            "default/plain_widget"
+         ]
+      }
+   ],
+   "layouts": [
+      {
+         "resources": {
+            "list": [
+               "/themes/test2.theme/layouts/example/css/example.css",
+               "/themes/test.theme/layouts/example/css/example.css",
+               "/application/layouts/example/test.theme/css/example.css",
+               "/application/layouts/example/test2.theme/css/example.css",
+               "/application/layouts/example/default.theme/css/example.css"
+            ],
+            "watch": [
+               "/themes/test2.theme/layouts/example/css/example.css",
+               "/themes/test.theme/layouts/example/css/example.css",
+               "/application/layouts/example/test.theme/css/example.css",
+               "/application/layouts/example/test2.theme/css/example.css",
+               "/application/layouts/example/default.theme/css/example.css"
+            ],
+            "embed": [
+               "/themes/test2.theme/layouts/example/example.html",
+               "/themes/test.theme/layouts/example/example.html",
+               "/application/layouts/example/test.theme/example.html",
+               "/application/layouts/example/test2.theme/example.html",
+               "/application/layouts/example/default.theme/example.html"
+            ]
+         },
+         "references": {
+            "file": {
+               "self": "example"
+            }
+         }
+      },
+      {
+         "resources": {
+            "list": [
+               "/themes/test2.theme/layouts/start/css/start.css",
+               "/themes/test.theme/layouts/start/css/start.css",
+               "/application/layouts/start/test.theme/css/start.css",
+               "/application/layouts/start/test2.theme/css/start.css",
+               "/application/layouts/start/default.theme/css/start.css"
+            ],
+            "watch": [
+               "/themes/test2.theme/layouts/start/css/start.css",
+               "/themes/test.theme/layouts/start/css/start.css",
+               "/application/layouts/start/test.theme/css/start.css",
+               "/application/layouts/start/test2.theme/css/start.css",
+               "/application/layouts/start/default.theme/css/start.css"
+            ],
+            "embed": [
+               "/themes/test2.theme/layouts/start/start.html",
+               "/themes/test.theme/layouts/start/start.html",
+               "/application/layouts/start/test.theme/start.html",
+               "/application/layouts/start/test2.theme/start.html",
+               "/application/layouts/start/default.theme/start.html"
+            ]
+         },
+         "references": {
+            "file": {
+               "self": "start"
+            }
+         }
+      }
+   ],
+   "widgets": [
+      {
+         "path": "widgets/default/local_widget",
+         "integration": {
+            "technology": "angular",
+            "type": "widget"
+         },
+         "resources": {
+            "watch": [
+               "/themes/test2.theme/widgets/default/local_widget/local_widget.html",
+               "/themes/test2.theme/widgets/default/local_widget/css/local_widget.css",
+               "/themes/test.theme/widgets/default/local_widget/local_widget.html",
+               "/themes/test.theme/widgets/default/local_widget/css/local_widget.css",
+               "widget.json",
+               "*.theme/local_widget.html",
+               "*.theme/css/local_widget.css",
+               "local_widget.js"
+            ],
+            "embed": [
+               "/themes/test2.theme/widgets/default/local_widget/local_widget.html",
+               "/themes/test.theme/widgets/default/local_widget/local_widget.html",
+               "widget.json",
+               "*.theme/local_widget.html"
+            ],
+            "list": [
+               "/themes/test2.theme/widgets/default/local_widget/css/local_widget.css",
+               "/themes/test.theme/widgets/default/local_widget/css/local_widget.css",
+               "*.theme/css/local_widget.css"
+            ]
+         },
+         "references": {
+            "file": {
+               "self": "default/local_widget"
+            },
+            "amd": {
+               "module": "laxar-application/widgets/default/local_widget/local_widget"
+            }
+         },
+         "controls": []
+      },
+      {
+         "path": "widgets/default/plain_widget",
+         "integration": {
+            "technology": "plain",
+            "type": "widget"
+         },
+         "resources": {
+            "watch": [
+               "/themes/test2.theme/widgets/default/plain_widget/plain_widget.html",
+               "/themes/test2.theme/widgets/default/plain_widget/css/plain_widget.css",
+               "/themes/test.theme/widgets/default/plain_widget/plain_widget.html",
+               "/themes/test.theme/widgets/default/plain_widget/css/plain_widget.css",
+               "widget.json",
+               "*.theme/plain_widget.html",
+               "*.theme/css/plain_widget.css",
+               "plain_widget.js"
+            ],
+            "embed": [
+               "/themes/test2.theme/widgets/default/plain_widget/plain_widget.html",
+               "/themes/test.theme/widgets/default/plain_widget/plain_widget.html",
+               "widget.json",
+               "*.theme/plain_widget.html"
+            ],
+            "list": [
+               "/themes/test2.theme/widgets/default/plain_widget/css/plain_widget.css",
+               "/themes/test.theme/widgets/default/plain_widget/css/plain_widget.css",
+               "*.theme/css/plain_widget.css"
+            ]
+         },
+         "references": {
+            "file": {
+               "self": "default/plain_widget"
+            },
+            "amd": {
+               "module": "laxar-application/widgets/default/plain_widget/plain_widget"
+            }
+         },
+         "controls": []
+      },
+      {
+         "path": "widgets/default/test_widget",
+         "integration": {
+            "technology": "angular",
+            "type": "widget"
+         },
+         "resources": {
+            "watch": [
+               "/themes/test2.theme/widgets/default/test_widget/test_widget.html",
+               "/themes/test2.theme/widgets/default/test_widget/css/test_widget.css",
+               "/themes/test.theme/widgets/default/test_widget/test_widget.html",
+               "/themes/test.theme/widgets/default/test_widget/css/test_widget.css",
+               "widget.json",
+               "*.theme/test_widget.html",
+               "data.json",
+               "*.theme/css/test_widget.css",
+               "messages-en.json",
+               "messages-de.json",
+               "test_widget.js",
+               "*.js"
+            ],
+            "embed": [
+               "/themes/test2.theme/widgets/default/test_widget/test_widget.html",
+               "/themes/test.theme/widgets/default/test_widget/test_widget.html",
+               "widget.json",
+               "*.theme/test_widget.html",
+               "data.json"
+            ],
+            "list": [
+               "/themes/test2.theme/widgets/default/test_widget/css/test_widget.css",
+               "/themes/test.theme/widgets/default/test_widget/css/test_widget.css",
+               "*.theme/css/test_widget.css",
+               "messages-en.json",
+               "messages-de.json"
+            ]
+         },
+         "references": {
+            "file": {
+               "self": "default/test_widget"
+            },
+            "amd": {
+               "module": "laxar-application/widgets/default/test_widget/test_widget"
+            }
+         },
+         "controls": [
+            "laxar-path-controls/ax-old-style-control/ax-old-style-control",
+            "laxar-path-controls/ax-test-control"
+         ]
+      }
+   ],
+   "controls": [
+      {
+         "path": "controls/ax-old-style-control/ax-old-style-control",
+         "integration": {
+            "technology": "angular",
+            "type": "control"
+         },
+         "resources": {
+            "watch": [
+               "/themes/test2.theme/controls/laxar-path-controls/ax-old-style-control/ax-old-style-control/css/ax-old-style-control.css",
+               "/themes/test.theme/controls/laxar-path-controls/ax-old-style-control/ax-old-style-control/css/ax-old-style-control.css",
+               "*.theme/css/ax-old-style-control.css",
+               "ax-old-style-control.js"
+            ],
+            "embed": [
+               "control.json"
+            ],
+            "list": [
+               "/themes/test2.theme/controls/laxar-path-controls/ax-old-style-control/ax-old-style-control/css/ax-old-style-control.css",
+               "/themes/test.theme/controls/laxar-path-controls/ax-old-style-control/ax-old-style-control/css/ax-old-style-control.css",
+               "*.theme/css/ax-old-style-control.css"
+            ]
+         },
+         "references": {
+            "amd": {
+               "self": "laxar-path-controls/ax-old-style-control/ax-old-style-control",
+               "module": "laxar-path-controls/ax-old-style-control/ax-old-style-control/ax-old-style-control"
+            }
+         }
+      },
+      {
+         "path": "controls/ax-test-control",
+         "integration": {
+            "technology": "angular",
+            "type": "control"
+         },
+         "resources": {
+            "watch": [
+               "/themes/test2.theme/controls/laxar-path-controls/ax-test-control/css/ax-new-style-control.css",
+               "/themes/test.theme/controls/laxar-path-controls/ax-test-control/css/ax-new-style-control.css",
+               "*.theme/css/ax-new-style-control.css",
+               "ax-new-style-control.js"
+            ],
+            "embed": [
+               "control.json"
+            ],
+            "list": [
+               "/themes/test2.theme/controls/laxar-path-controls/ax-test-control/css/ax-new-style-control.css",
+               "/themes/test.theme/controls/laxar-path-controls/ax-test-control/css/ax-new-style-control.css",
+               "*.theme/css/ax-new-style-control.css"
+            ]
+         },
+         "references": {
+            "amd": {
+               "self": "laxar-path-controls/ax-test-control",
+               "module": "laxar-path-controls/ax-test-control/ax-new-style-control"
+            }
+         }
+      }
+   ]
+}

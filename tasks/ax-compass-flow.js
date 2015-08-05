@@ -29,7 +29,11 @@ module.exports = function( grunt ) {
    // Make sure that events are registered only once per flow-target.
    var watchListeners = {};
    // Batch fast subsequent changes to SCSS files (e.g. editor saving all open files at the same time):
-   var processDebounced = debounce( processWaitingItems, 50, { trailing: true } );
+   var processQueueDebounced = debounce(
+      processQueue,
+      grunt.config( 'laxar-compass.options.debounceDelay' ) || 50,
+      { trailing: true }
+   );
 
    function runCompassFlow( task ) {
       var startMs = Date.now();
@@ -38,7 +42,7 @@ module.exports = function( grunt ) {
 
       var artifacts = artifactsListing( flowsDirectory, flowId );
       var options = task.options( {
-         compass: 'compass',
+         compass: grunt.config( 'laxar-compass.options.compass' ) || 'compass',
          spawn: false,
          saveConfig: true
       } );
@@ -83,7 +87,7 @@ module.exports = function( grunt ) {
             options: options,
             themeFoldersByName: themeFoldersByName
          } );
-         processDebounced();
+         processQueueDebounced();
       };
 
       grunt.event.on( 'watch', watchListeners[ subTask ] );
@@ -118,7 +122,7 @@ module.exports = function( grunt ) {
    // Files that needs to be processed by compass are collected here.
    var compassQueue = [];
 
-   function processWaitingItems() {
+   function processQueue() {
       // File may be triggered multiple times (from one or multiple flows).
       // Process each file only once.
       var filesProcessed = {};
