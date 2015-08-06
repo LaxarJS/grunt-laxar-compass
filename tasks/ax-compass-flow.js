@@ -104,7 +104,7 @@ module.exports = function( grunt ) {
          files: flatten( items.map( getResourcePaths( artifacts.themes, 'watch' ) ) )
             .filter( isCss )
             .map( function( cssFilePath ) {
-               return cssFilePath.replace( CSS_MATCHER, path.join( '$1', 'scss','$2.scss' ) );
+               return cssFilePath.replace( CSS_MATCHER, path.join( '$1', 'scss','*.scss' ) );
             } ),
          event: [ 'changed', 'added' ],
          options: {
@@ -193,6 +193,7 @@ module.exports = function( grunt ) {
          var projectPath = shell.pwd();
          shell.cd( info.scssProjectFolder );
          shell.exec( command );
+         grunt.log.writeln();
          shell.cd( projectPath );
       }
    }
