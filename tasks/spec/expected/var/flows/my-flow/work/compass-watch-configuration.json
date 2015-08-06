@@ -29,7 +29,17 @@
             "themes/test.theme/controls/laxar-path-controls/ax-test-control/scss/*.scss",
             "controls/ax-test-control/default.theme/scss/*.scss",
             "controls/ax-test-control/test.theme/scss/*.scss",
-            "controls/ax-test-control/test2.theme/scss/*.scss"
+            "controls/ax-test-control/test2.theme/scss/*.scss",
+            "themes/test2.theme/layouts/example/scss/*.scss",
+            "themes/test.theme/layouts/example/scss/*.scss",
+            "application/layouts/example/test.theme/scss/*.scss",
+            "application/layouts/example/test2.theme/scss/*.scss",
+            "application/layouts/example/default.theme/scss/*.scss",
+            "themes/test2.theme/layouts/start/scss/*.scss",
+            "themes/test.theme/layouts/start/scss/*.scss",
+            "application/layouts/start/test.theme/scss/*.scss",
+            "application/layouts/start/test2.theme/scss/*.scss",
+            "application/layouts/start/default.theme/scss/*.scss"
          ],
          "event": [
             "changed",

@@ -98,7 +98,8 @@ module.exports = function( grunt ) {
    function watchConfigForCompass( artifacts ) {
       var items = artifacts.themes
          .concat( artifacts.widgets )
-         .concat( artifacts.controls );
+         .concat( artifacts.controls )
+         .concat( artifacts.layouts );
 
       return {
          files: flatten( items.map( getResourcePaths( artifacts.themes, 'watch' ) ) )
