@@ -1,4 +1,10 @@
-var path = require( 'path' );
+/**
+ * Copyright 2015 aixigo AG
+ * Released under the MIT license.
+ * http://laxarjs.org/license
+ */
+
+var path = require( 'path' ).posix;
 var runTask = require( 'grunt-run-task' );
 
 module.exports = run;
