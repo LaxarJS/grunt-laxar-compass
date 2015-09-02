@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
    grunt.loadNpmTasks( 'grunt-mocha-cli' );
    grunt.loadNpmTasks( 'grunt-bump' );
 
-   grunt.registerTask( 'test', [ 'clean', 'copy', 'mochacli:tasks' ] );
+   grunt.registerTask( 'test', [ 'clean', 'copy', 'mochacli:tasks', 'jshint' ] );
    grunt.registerTask( 'default', ['test'] );
 
    grunt.registerTask( 'release', 'Test and commit version-bump (does not push/publish).', function( type ) {

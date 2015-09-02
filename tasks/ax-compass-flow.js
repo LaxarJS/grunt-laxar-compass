@@ -7,11 +7,13 @@ module.exports = function( grunt ) {
    'use strict';
 
    var TASK = 'laxar-compass-flow';
-   var debounce = require( 'lodash' ).debounce;
-   var path = require( 'path' );
-   var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
-   var laxarHelper = require( './lib/laxar-helper' )( grunt, TASK );
 
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   var path = require( 'path' );
+   var debounce = require( 'lodash' ).debounce;
+   var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
+   var taskHelper = require( 'grunt-laxar/tasks/lib/task_helpers' )( grunt, TASK );
 
    var CONFIG_FILE = path.join( 'work', 'compass-watch-configuration.json' );
    var CSS_MATCHER = /^(.*)[\/\\]css[\/\\](.*)[.]css$/;
@@ -40,9 +42,8 @@ module.exports = function( grunt ) {
       var flowId = task.nameArgs.split( ':' )[ 1 ];
       var flowsDirectory = task.files[ 0 ].src[ 0 ];
 
-      var artifacts = laxarHelper.artifactsListing( flowsDirectory, flowId );
+      var artifacts = taskHelper.artifactsListing( flowsDirectory, flowId );
       var options = task.options( {
-         compass: grunt.config( 'laxar-compass.options.compass' ) || 'compass',
          spawn: false,
          saveConfig: true
       } );
@@ -55,12 +56,12 @@ module.exports = function( grunt ) {
       var subTask = flowId + '-compass';
       var config = { watch: {} };
       config.watch[ subTask ] = watchConfigForCompass( artifacts, flowId, options );
-      var files = config.watch[ subTask].files;
+      var files = config.watch[ subTask ].files;
 
       if( options.saveConfig ) {
          var destination = path.join( flowsDirectory, flowId, CONFIG_FILE );
          var result = JSON.stringify( config, null, 3 );
-         laxarHelper.writeIfChanged( destination, result, startMs );
+         taskHelper.writeIfChanged( destination, result, startMs );
       }
 
       grunt.log.writeln( TASK + ': registering compass watchers for sub-task ' + subTask );
@@ -76,7 +77,6 @@ module.exports = function( grunt ) {
          compassQueue.push( {
             filePath: filePath,
             files: files,
-            compass: options.compass,
             themeFoldersByName: themeFoldersByName
          } );
          processQueueDebounced();
@@ -93,10 +93,10 @@ module.exports = function( grunt ) {
          .concat( artifacts.controls )
          .concat( artifacts.layouts );
 
-      var watchPathsForItem = laxarHelper.getResourcePaths( artifacts.themes, 'watch' );
+      var watchPathsForItem = taskHelper.getResourcePaths( artifacts.themes, 'watch' );
 
       return {
-         files: laxarHelper.flatten( items.map( watchPathsForItem ) )
+         files: taskHelper.flatten( items.map( watchPathsForItem ) )
             .filter( isCss )
             .map( function( cssFilePath ) {
                return cssFilePath.replace( CSS_MATCHER, path.join( '$1', 'scss','*.scss' ) );

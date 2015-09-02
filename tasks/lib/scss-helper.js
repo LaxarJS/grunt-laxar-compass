@@ -21,8 +21,8 @@ module.exports = function( grunt, TASK ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   function compassExecutable( compassParameter ) {
-      var compass = compassParameter;
+   function compassExecutable() {
+      var compass = grunt.config( 'laxar-compass.options.compass' ) || 'compass';
       if( grunt.option( 'laxar-compass' ) ) {
          compass = grunt.option( 'laxar-compass' );
       }
@@ -35,26 +35,8 @@ module.exports = function( grunt, TASK ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    function compile( scssItem ) {
-      console.log( 'COMPILE! ', scssItem ); // :TODO: Delete
-
-      processScssItem( scssItem, compassInfo( scssItem.filePath ) );
-
-      function processScssItem( item, fileInfo ) {
-         execCompass( item, fileInfo );
-         if( fileInfo.themeName === 'default.theme' ) {
-            // rebuild themed versions as they often import from the default theme:
-            item.files
-               .filter( function( _ ) { return _.indexOf( fileInfo.artifactName ) !== -1; } )
-               .forEach( function( scssPath ) {
-                  var subInfo = compassInfo( scssPath );
-                  if( subInfo.themeName !== 'default.theme' &&
-                      subInfo.artifactName === fileInfo.artifactName ) {
-                     execCompass( item, subInfo );
-                  }
-               } );
-         }
-      }
-
+      var compassItemInfo = compassInfo( scssItem.filePath );
+      return execCompass( scssItem, compassItemInfo );
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,16 +47,18 @@ module.exports = function( grunt, TASK ) {
       }
 
       var globalThemeFolder = item.themeFoldersByName[ info.themeName ];
-      var configPath = path.join( globalThemeFolder, 'compass', 'config.rb' );
-      var executable = compassExecutable( item.compass );
+      var configPath = path.relative( info.scssProjectFolder, path.join( globalThemeFolder, 'compass', 'config.rb' ) );
+      var executable = compassExecutable();
+      grunt.log.writeln( info.scssProjectFolder + ' > compass compile -c ' + configPath ); // :TODO: Delete
       var command = executable + ' compile -c ' + configPath;
       grunt.verbose.writeln( TASK + ': ' + command + ' (wd: ' + info.scssProjectFolder + ')' );
 
       var projectPath = shell.pwd();
       shell.cd( info.scssProjectFolder );
-      shell.exec( command );
+      var resultCode = shell.exec( command ).code;
       grunt.log.writeln();
       shell.cd( projectPath );
+      return resultCode === 0;
    }
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
