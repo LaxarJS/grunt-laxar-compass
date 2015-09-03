@@ -34,8 +34,10 @@ grunt.initConfig( {
    // ...
    'laxar-configure': {
       // ...
-      userTasks: {
-         'build-flow': [ 'laxar-compass-flow' ]
+      options: {
+         userTasks: {
+            'build-flow': [ 'laxar-compass-flow' ]
+         }
       }
    },
    'laxar-compass': {
