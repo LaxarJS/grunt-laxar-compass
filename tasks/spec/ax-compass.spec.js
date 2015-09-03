@@ -121,6 +121,41 @@ describe( 'the laxar-compass task', function() {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+   describe( 'when invoked with the "--all" target selector', function() {
+
+      before( function( done ) {
+         run( 'laxar-compass', null, [ 'all', ' ' ], done );
+      } );
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      it( 'compiles (all themes of) all widgets', function() {
+         var expected = grunt.file.read( paths.expected.localWidgetTestThemeCss );
+         var actual = grunt.file.read( paths.actual.localWidgetTestThemeCss );
+         expect( actual ).to.eql( expected );
+
+         var expected_ = grunt.file.read( paths.expected.localWidgetDefaultThemeCss );
+         var actual_ = grunt.file.read( paths.actual.localWidgetDefaultThemeCss );
+         expect( actual_ ).to.eql( expected_ );
+
+         var expected__ = grunt.file.read( paths.expected.testWidgetDefaultThemeCss );
+         var actual__ = grunt.file.read( paths.actual.testWidgetDefaultThemeCss );
+         expect( actual__ ).to.eql( expected__ );
+      } );
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      after( function( done ) {
+         grunt.file.delete( paths.actual.localWidgetTestThemeCss );
+         grunt.file.delete( paths.actual.localWidgetDefaultThemeCss );
+         grunt.file.delete( paths.actual.testWidgetDefaultThemeCss );
+         done();
+      } );
+
+   } );
+
+   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    function run( taskName, targetTheme, targetSelector, done ) {
 
       // simulate Gruntfile config
