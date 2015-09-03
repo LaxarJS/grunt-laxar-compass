@@ -53,6 +53,11 @@ module.exports = function( grunt ) {
          return;
       }
 
+      if( grunt.option( 'all' ) ) {
+         compileAll( targetThemeName );
+         return;
+      }
+
       var subject = refAndSearchLists();
       if( !subject ) {
          grunt.log.warn( 'No artifact found. Try --usage for help.' );
@@ -92,6 +97,8 @@ module.exports = function( grunt ) {
          write( '  --any | -X <ref>         Try all artifact types and compile SCSS for the' );
          write( '                           first matching item' );
 
+         write( '  --all                    Compile SCSS for ALL artifacts.' );
+
          write( '  --usage                  Print this information.' );
       }
 
@@ -125,6 +132,47 @@ module.exports = function( grunt ) {
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+      function compileAll( targetThemeName ) {
+         var failures = [];
+         var done = {};
+         flowTargets().forEach( function( flow ) {
+            var model = artifactsListing( flow.target );
+            Object.keys( TYPES ).forEach( function( listName ) {
+               model[ listName ].forEach( function( artifactItem ) {
+                  var refType = DEFAULT_REF_TYPES[ listName ];
+                  var ref = artifactItem.references[ refType ].self;
+                  done[ listName ] = done[ listName ] || {};
+                  if( !done[ listName ][ ref ] ) {
+                     var results = compileArtifact( ref, targetThemeName, listName );
+                     results.forEach( function( result ) {
+                        if( !result.success ) {
+                           failures.push( result );
+                        }
+                     } );
+                     done[ listName ][ artifactItem.references[ refType ].self ] = true;
+                  }
+               } );
+            } );
+         } );
+
+         if( failures.length ) {
+            grunt.log.warn( 'The following artifacts FAILED to compile: ' );
+            grunt.log.warn( '|' );
+            failures.forEach( function( failureResult ) {
+               grunt.log.warn( '|  *', failureResult.ref + ':'  );
+               grunt.log.warn( '|   ', failureResult.filePath );
+               grunt.log.warn( '|' );
+            } );
+            grunt.log.warn( 'Consult the output above for details.' );
+            grunt.log.warn( 'To recompile after fixing use e.g.:' );
+            var themeSelector = targetThemeName === ALL_THEMES ? '' : ' -T ' + targetThemeName;
+            var targetSelector = ' --' + failures[ 0 ].type + ' ' + failures[ 0 ].ref;
+            grunt.log.warn(  'grunt laxar-compass' + themeSelector + targetSelector );
+         }
+      }
+
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
       function compileArtifact( ref, targetThemeName, artifactListName ) {
          var matchesRef= matchesReference( ref, DEFAULT_REF_TYPES[ artifactListName ] );
          var matches = flowTargets()
@@ -138,7 +186,7 @@ module.exports = function( grunt ) {
             .filter( function( result ) { return !!result.item; } );
 
          if( !matches.length ) {
-            return false;
+            return [];
          }
 
          // Themes from any flow that are available at all:

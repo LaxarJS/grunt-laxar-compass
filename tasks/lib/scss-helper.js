@@ -49,7 +49,7 @@ module.exports = function( grunt, TASK ) {
       var globalThemeFolder = item.themeFoldersByName[ info.themeName ];
       var configPath = path.relative( info.scssProjectFolder, path.join( globalThemeFolder, 'compass', 'config.rb' ) );
       var executable = compassExecutable();
-      grunt.log.writeln( info.scssProjectFolder + ' > compass compile -c ' + configPath ); // :TODO: Delete
+      grunt.log.writeln( info.scssProjectFolder + ' > compass compile -c ' + configPath );
       var command = executable + ' compile -c ' + configPath;
       grunt.verbose.writeln( TASK + ': ' + command + ' (wd: ' + info.scssProjectFolder + ')' );
 
