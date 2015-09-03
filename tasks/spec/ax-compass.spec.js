@@ -3,7 +3,8 @@
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
-var path = require( 'path' );
+
+var path = require( 'grunt-laxar/lib/path-platform/path' ).posix;
 var grunt = require( 'grunt' );
 var runTask = require( 'grunt-run-task' );
 var expect = require( 'expect.js' );
