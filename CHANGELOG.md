@@ -2,6 +2,9 @@
 
 ## Last Changes
 
+
+## v0.2.0
+
 - [#7](https://github.com/LaxarJS/grunt-laxar-compass/issues/7): added documentation for the laxar-compass task
     + NEW FEATURE: see ticket for details
 - [#5](https://github.com/LaxarJS/grunt-laxar-compass/issues/5): fixed setup instructions for grunt-laxar-compass
