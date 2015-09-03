@@ -2,13 +2,15 @@
 
 > Watches SCSS of LaxarJS artifacts, runs compass when SCSS changes.
 
-This task makes it easy to use [compass](http://compass-style.org/) in LaxarJS applications.
+These tasks makes it easy to use [compass](http://compass-style.org/) in LaxarJS applications.
 
-Right now it only watches your SCSS files while the development server is running.
+There is a task that watches your SCSS files while the development server is running, and a task to manually compile SCSS.
+
 Whenever you change SCSS for an artifact, the CSS for the same theme folder of the artifact gets recreated using `compass compile`.
 The configuration path will be set to the `compass/config.rb` from the matching global theme folder (e.g. `includes/themes/my.theme/config/compass.rb`).
+Also, when you modify the *default.theme* SCSS of an artifact, all other themes of that artifact are recompiled, because they usually import the default theme.
 
-Also, when you modify the *default.theme* SCSS of an artifact, all other themes of that artifact are recompiled, because they usually import the default theme.  
+For this to work with your theme, make sure that it contains a `compass/config.rb` file.
 
 
 ## Getting Started

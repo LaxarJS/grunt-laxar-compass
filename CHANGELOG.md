@@ -2,6 +2,8 @@
 
 ## Last Changes
 
+- [#8](https://github.com/LaxarJS/grunt-laxar-compass/issues/8): fixed compiling dependent theme folders after default.theme has changed
+
 
 ## v0.2.0
 
