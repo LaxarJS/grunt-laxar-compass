@@ -52,6 +52,17 @@ grunt.initConfig( {
 This will automatically launch the task during development (e.g. `grunt develop`), watching your application artifacts.
 
 
+## CLI Tasks
+
+The plugin provides a task which is intended for use on the command line:
+
+⚙ **laxar-compass**
+
+Compile SCSS for a given artifacts or for all artifacts, in a selected theme or in all themes.
+
+For more information, run `grunt laxar-compass --usage`.
+
+
 ## User Tasks
 
 This plugin makes available a new *user task* for the *build*-stage of the grunt-laxar task [*laxar-configure*](https://github.com/LaxarJS/grunt-laxar/blob/master/docs/tasks/laxar-configure.md).
