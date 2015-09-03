@@ -10,7 +10,7 @@ module.exports = function( grunt ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   var path = require( 'path' );
+   var path = require( 'path' ).posix;
    var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
    var taskHelper = require( 'grunt-laxar/tasks/lib/task_helpers' )( grunt, TASK );
    var requireConfig = require( 'grunt-laxar/lib/require_config' );
@@ -280,7 +280,8 @@ module.exports = function( grunt ) {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       function flowsDirectory() {
-         return grunt.config.get( 'laxar-configure.options.workDirectory' ) || [ 'var', 'flows' ].join( path.sep );
+         var defaultFlowsDirectory = [ 'var', 'flows' ].join( path.sep );
+         return grunt.config.get( 'laxar-configure.options.workDirectory' ) || defaultFlowsDirectory ;
       }
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////

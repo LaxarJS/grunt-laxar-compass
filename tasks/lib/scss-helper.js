@@ -4,7 +4,7 @@
  * http://laxarjs.org/license
  */
 
-var path = require( 'path' );
+var path = require( 'path' ).posix;
 var shell = require( 'shelljs' );
 
 var SCSS_MATCHER = /^(.*)[\/\\]scss[\/\\](.*)[.]scss$/;

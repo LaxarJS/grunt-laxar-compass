@@ -10,7 +10,7 @@ module.exports = function( grunt ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   var path = require( 'path' );
+   var path = require( 'path' ).posix;
    var debounce = require( 'lodash' ).debounce;
    var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
    var taskHelper = require( 'grunt-laxar/tasks/lib/task_helpers' )( grunt, TASK );
