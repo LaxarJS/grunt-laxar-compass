@@ -4,8 +4,8 @@
  * http://laxarjs.org/license
  */
 
-var path = require( 'grunt-laxar/lib/path-platform/path' ).posix;
 var shell = require( 'shelljs' );
+var path = require( '../lib/path-platform/path' ).posix;
 
 var SCSS_MATCHER = /^(.*)[\/\\]scss[\/\\](.*)[.]scss$/;
 var CSS_MATCHER = /^(.*)[\/\\]css[\/\\](.*)[.]css$/;

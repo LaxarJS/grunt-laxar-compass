@@ -11,9 +11,9 @@ module.exports = function( grunt ) {
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    var debounce = require( 'lodash' ).debounce;
-   var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
-   var path = require( 'grunt-laxar/lib/path-platform/path' ).posix;
    var taskHelper = require( 'grunt-laxar/tasks/lib/task_helpers' )( grunt, TASK );
+   var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
+   var path = require( './lib/path-platform/path' ).posix;
 
    var CONFIG_FILE = path.join( 'work', 'compass-watch-configuration.json' );
    var CSS_MATCHER = /^(.*)[\/\\]css[\/\\](.*)[.]css$/;

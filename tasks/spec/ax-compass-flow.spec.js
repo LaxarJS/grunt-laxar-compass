@@ -4,10 +4,10 @@
  * http://laxarjs.org/license
  */
 
-var path = require( 'grunt-laxar/lib/path-platform/path' ).posix;
 var grunt = require( 'grunt' );
 var expect = require( 'expect.js' );
 
+var path = require( '../lib/path-platform/path' ).posix;
 var run = require( './lib/run-elsewhere' );
 
 describe( 'the laxar-compass-flow task', function() {

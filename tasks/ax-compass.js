@@ -10,10 +10,10 @@ module.exports = function( grunt ) {
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   var path = require( 'grunt-laxar/lib/path-platform/path' ).posix;
    var taskHelper = require( 'grunt-laxar/tasks/lib/task_helpers' )( grunt, TASK );
    var requireConfig = require( 'grunt-laxar/lib/require_config' );
    var scssHelper = require( './lib/scss-helper' )( grunt, TASK );
+   var path = require( './lib/path-platform/path' ).posix;
 
    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
