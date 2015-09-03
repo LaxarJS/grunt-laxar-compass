@@ -47,7 +47,8 @@ module.exports = function( grunt, TASK ) {
       }
 
       var globalThemeFolder = item.themeFoldersByName[ info.themeName ];
-      var configPath = path.relative( info.scssProjectFolder, path.join( globalThemeFolder, 'compass', 'config.rb' ) );
+      var configPath =
+         path.relative( info.scssProjectFolder, path.join( globalThemeFolder, 'compass', 'config.rb' ) );
       var executable = compassExecutable();
       grunt.log.writeln( info.scssProjectFolder + ' > compass compile -c ' + configPath );
       var command = executable + ' compile -c ' + configPath;
@@ -66,7 +67,6 @@ module.exports = function( grunt, TASK ) {
    function compassInfo( scssFilePath ) {
       var match = SCSS_MATCHER.exec( scssFilePath );
       var scssProjectFolder = match[ 1 ];
-      var scssArtifactName = match[ 2 ];
 
       var folderSegments = scssProjectFolder.split( path.sep );
       var themeName = 'default.theme';
@@ -80,7 +80,6 @@ module.exports = function( grunt, TASK ) {
       return {
          scssProjectFolder: scssProjectFolder,
          themeName: themeName,
-         artifactName: scssArtifactName,
          scssPath: scssFilePath
       };
    }
