@@ -3,10 +3,12 @@
  * Released under the MIT license.
  * http://laxarjs.org/license
  */
-var path = require( 'path' );
+
 var grunt = require( 'grunt' );
-var runTask = require( 'grunt-run-task' );
 var expect = require( 'expect.js' );
+var runTask = require( 'grunt-run-task' );
+
+var path = require( '../lib/path-platform/path' ).posix;
 
 describe( 'the laxar-compass task', function() {
    'use strict';

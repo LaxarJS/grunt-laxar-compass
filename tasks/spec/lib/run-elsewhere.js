@@ -4,8 +4,8 @@
  * http://laxarjs.org/license
  */
 
-var path = require( 'path' ).posix;
 var runTask = require( 'grunt-run-task' );
+var path = require( '../../lib/path-platform/path' ).posix;
 
 module.exports = run;
 
