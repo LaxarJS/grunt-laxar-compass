@@ -9,7 +9,7 @@ var expect = require( 'expect.js' );
 
 var run = require( './lib/run-elsewhere' );
 
-describe( 'the laxar-configure-watch task', function() {
+describe( 'the laxar-compass-flow task', function() {
    'use strict';
 
    var dir = {

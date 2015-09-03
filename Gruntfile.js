@@ -10,6 +10,22 @@ module.exports = function( grunt ) {
       clean: {
          test: [ 'tmp' ]
       },
+      copy: {
+         test: {
+            expand: true,
+            src: './**/*.*',
+            cwd: 'tasks/spec/fixtures/',
+            dest: 'tmp/'
+         }
+      },
+      chmod: {
+         test: {
+            options: {
+               mode: 'a+x'
+            },
+            src: [ 'tmp/fake_compass.sh' ]
+         }
+      },
       jshint: {
          gruntfile: [
             __filename
@@ -21,14 +37,7 @@ module.exports = function( grunt ) {
             'tasks/spec/*.js'
          ]
       },
-      copy: {
-         test: {
-            expand: true,
-            src: './**/*.*',
-            cwd: 'tasks/spec/fixtures/',
-            dest: 'tmp/'
-         }
-      },
+
       mochacli: {
          options: {
             ui: 'bdd',
@@ -55,12 +64,19 @@ module.exports = function( grunt ) {
 
    grunt.loadNpmTasks( 'grunt-contrib-clean' );
    grunt.loadNpmTasks( 'grunt-contrib-copy' );
+   grunt.loadNpmTasks( 'grunt-chmod' );
    grunt.loadNpmTasks( 'grunt-contrib-jshint' );
    grunt.loadNpmTasks( 'grunt-mocha-cli' );
    grunt.loadNpmTasks( 'grunt-bump' );
 
-   grunt.registerTask( 'test', [ 'clean', 'copy', 'mochacli:tasks' ] );
-   grunt.registerTask( 'default', ['test'] );
+   grunt.registerTask( 'test', [
+      'clean:test',
+      'copy:test',
+      'chmod:test',
+      'mochacli:tasks',
+      'jshint'
+   ] );
+   grunt.registerTask( 'default', [ 'test' ] );
 
    grunt.registerTask( 'release', 'Test and commit version-bump (does not push/publish).', function( type ) {
       grunt.task.run( [

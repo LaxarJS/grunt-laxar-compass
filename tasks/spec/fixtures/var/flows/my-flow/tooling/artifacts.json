@@ -12,7 +12,7 @@
             "list": []
          },
          "references": {
-            "file": {
+            "local": {
                "self": "application/flow/flow.json"
             }
          }
@@ -23,7 +23,7 @@
          "path": "bower_components/laxar-uikit/dist/themes/default.theme",
          "name": "default.theme",
          "references": {
-            "file": {
+            "local": {
                "self": "default.theme"
             }
          },
@@ -41,7 +41,7 @@
          "path": "themes/test.theme",
          "name": "test.theme",
          "references": {
-            "file": {
+            "local": {
                "self": "test.theme"
             }
          },
@@ -59,7 +59,7 @@
          "path": "themes/test2.theme",
          "name": "test2.theme",
          "references": {
-            "file": {
+            "local": {
                "self": "test2.theme"
             }
          },
@@ -87,7 +87,7 @@
             "list": []
          },
          "references": {
-            "file":  {
+            "local":  {
                "self": "start"
             }
          },
@@ -125,7 +125,7 @@
             ]
          },
          "references": {
-            "file": {
+            "local": {
                "self": "example"
             }
          }
@@ -155,7 +155,7 @@
             ]
          },
          "references": {
-            "file": {
+            "local": {
                "self": "start"
             }
          }
@@ -192,7 +192,7 @@
             ]
          },
          "references": {
-            "file": {
+            "local": {
                "self": "default/local_widget"
             },
             "amd": {
@@ -231,7 +231,7 @@
             ]
          },
          "references": {
-            "file": {
+            "local": {
                "self": "default/plain_widget"
             },
             "amd": {
@@ -277,7 +277,7 @@
             ]
          },
          "references": {
-            "file": {
+            "local": {
                "self": "default/test_widget"
             },
             "amd": {
