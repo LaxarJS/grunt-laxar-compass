@@ -1,6 +1,6 @@
 {
    "name": "grunt-laxar-compass",
-   "version": "0.3.0-pre",
+   "version": "0.4.0-pre",
    "description": "Watches SCSS of LaxarJS artifacts, runs compass when needed.",
    "repository": {
       "type": "git",
@@ -18,7 +18,7 @@
    "dependencies": {
       "shelljs": "~0.5.1",
       "lodash": "~3.10.0",
-      "grunt-laxar": "~1.1.0-alpha.4"
+      "grunt-laxar": "~1.1.0"
    },
    "peerDependencies": {
       "grunt": ">=0.4"
